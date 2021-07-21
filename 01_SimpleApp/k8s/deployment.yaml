@@ -17,6 +17,9 @@ spec:
     spec:
       containers:
         - name: sampleapp
-          image: {본인docker.io ID}/sampleapp:v1          
+          image: {본인docker.io ID}/sampleapp:v1 
+          env:
+            - name: PORT
+              value: {본인로컬테스트포트}
           ports:
             - containerPort: {본인로컬테스트포트}
