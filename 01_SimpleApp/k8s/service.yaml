@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sampleapp-container-svc
+  namespace: {본인namespace}
+  labels:
+    app: sampleapp-container
+spec:
+  ports:
+  - name: http
+    port: {본인로컬테스트포트}
+    targetPort: {본인로컬테스트포트}
+  selector:
+    app: sampleapp-container
+  type: LoadBalancer

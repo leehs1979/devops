@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleapp
+  namespace: {본인namespace}
+  labels:
+    app: sampleapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sampleapp-container
+  template:
+    metadata:
+      labels:
+        app: sampleapp-container
+    spec:
+      containers:
+        - name: sampleapp
+          image: {본인docker.io ID}/sampleapp:v1          
+          ports:
+            - containerPort: {본인로컬테스트포트}
