@@ -1,0 +1,36 @@
+pipeline {
+  agent any
+
+  stages {
+      
+    stage('Example') {
+      steps {
+        echo 'Hello World!'
+      }
+    }
+
+    stage('Checkout') {
+      steps {
+        git branch: 'main', url: 'https://github.com/leehs1979/devops.git'
+      }
+    }
+    
+    stage('Docker build') {
+      steps {
+        //sh 'cp -r /var/lib/jenkins/workspace/Week4_hs9654lee/01_SimpleApp/* docker/'
+        dir('01_SimpleApp') {
+          withCredentials([usernamePassword(
+            credentialsId: 'hs9654lee-docker', // credentialsId
+            usernameVariable: 'USERNAME', // 사용자명을 ${USERNAME} 환경변수에 mapping
+            passwordVariable: 'PASSWORD'  // 사용자암호를 ${PASSWORD} 환경변수에 mapping
+          )]) {
+
+            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+            sh 'docker build -t ${USERNAME}/sampleapp:v3 .'
+            sh 'docker push ${USERNAME}/sampleapp:v3'
+          }
+        }
+      }
+    }
+  }
+}
