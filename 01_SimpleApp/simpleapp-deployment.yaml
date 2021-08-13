@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleapp
+  namespace: hs9654lee
+  labels:
+    app: sampleapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sampleapp-container
+  template:
+    metadata:
+      labels:
+        app: sampleapp-container
+    spec:
+      containers:
+        - name: sampleapp
+          image: leehs1979/sampleapp:latest
+          env:
+            - name: PORT
+              value: 18180
+          ports:
+            - containerPort: 18180
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sampleapp-container-svc
+  namespace: hs9654lee
+  labels:
+    app: sampleapp-container
+spec:
+  ports:
+  - name: http
+    port: 18180
+    targetPort: 18180
+  selector:
+    app: sampleapp-container
+  type: LoadBalancer
